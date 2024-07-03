@@ -1,0 +1,213 @@
+@use '../../styles/mixins';
+@use '../../styles/_variables.sass';
+
+
+.container-title {
+    width: 100%;
+    height: 100px;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-title h1.title {
+    color: #fff;
+    font-size: 5em;
+    position: absolute;
+}
+  
+.container-title h1.title:nth-child(1) {
+    color: transparent;
+    -webkit-text-stroke: 2px #fff;
+}
+  
+.container-title h1.title:nth-child(2) {
+    color: #fff;
+    animation: animate 4s ease-in-out infinite;
+}
+
+@keyframes animate {
+    0%,
+    100% {
+      clip-path: polygon(
+        0% 45%,
+        16% 44%,
+        33% 50%,
+        54% 60%,
+        70% 61%,
+        84% 59%,
+        100% 52%,
+        100% 100%,
+        0% 100%
+      );
+    }
+  
+    50% {
+      clip-path: polygon(
+        0% 60%,
+        15% 65%,
+        34% 66%,
+        51% 62%,
+        67% 50%,
+        84% 45%,
+        100% 46%,
+        100% 100%,
+        0% 100%
+      );
+    }
+}
+
+.form-container {
+    width: 100%;
+}
+
+.form-container .task-form {
+    @include mixins.d-column;
+    @include mixins.container;
+}
+
+.form-container .task-form .title-field,
+.form-container .task-form .priority-list {
+    @include mixins.container;
+    background-color: variables.$bg-secondy-color;
+    padding: 1.2rem 0;
+    padding-left: 1rem;
+    color: variables.$text-secondary-color;
+    font-size: 1.2rem;
+    border-radius: 30px;
+}
+
+.form-container .btn-add {
+    background-color: green;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    width: 100px;
+    padding: 1rem 0;
+    color: #FFF;
+}
+
+.form-container .btn-add:hover {
+    background-color: transparent;
+    border: 1px solid green;
+    color: green;
+    transition: .5s;
+}
+
+.task-list-container {
+    width: 100%;
+    margin-top: 2.5rem;
+}
+
+.task-list-container ul {
+    list-style: none;
+}
+
+.task-list-container ul li {
+    width: 100%;
+    margin-bottom: 1.2rem;
+    background-color: variables.$bg-secondy-color;
+    padding: 1.2rem 0;
+}
+
+.task-list-container ul li span {
+    width: 100%;
+}
+
+.task-list-container ul li p {
+    font-size: 1.5rem;
+    color: orange;
+}
+
+.task-list-container ul li .createAt {
+    font-size: 1.2rem;
+    margin: 0 32%;
+}
+
+.task-list-container ul li .task-item-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.task-list-container ul li .task-item-actions .check-complete {
+    width: 18px;
+}
+
+.task-list-container ul li .task-item-actions .btn-edit,
+.task-list-container ul li .task-item-actions .btn-delele {
+    font-size: 2rem;
+}
+
+.task-list-container ul li .task-item-actions .btn-delele {
+    color: #FF0000;
+}
+
+@media (min-width: 800px) {
+    .container-title h1.title {
+        font-size: 8em;
+    }
+
+    .form-container .task-form {
+        flex-direction: row;
+        align-items: center;
+        border-radius: 50px;
+    }
+
+    .form-container .task-form .title-field {
+        margin-bottom: 0;
+        border-radius: 0;
+        border-top-left-radius: 50px;
+        border-bottom-left-radius: 50px;
+        width: 45%;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .form-container .task-form .priority-list {
+        border-radius: 0;
+        width: 45%;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .form-container .task-form .btn-add {
+        width: 20%;
+        border-radius: 0;
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .task-list-container ul li {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .task-list-container ul li .task-item-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 1.2rem;
+    }
+
+    .task-list-container ul li .task-item-actions {
+        display: flex;
+        align-items: center;
+        padding-right: 1.2rem;
+    }
+
+    .task-list-container ul li .task-item-actions .check-complete {
+        zoom: 1.6;
+    } 
+
+    .task-list-container ul li .task-item-actions .btn-edit, 
+    .task-list-container ul li .task-item-actions .btn-delele {
+        font-size: 2.2rem;
+    }    
+
+    .task-list-container ul li:nth-child(1) { 
+        opacity: .3;
+    }
+}

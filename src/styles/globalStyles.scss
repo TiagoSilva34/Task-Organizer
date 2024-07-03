@@ -1,0 +1,95 @@
+@use 'variables';
+@use 'mixins';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body, #root {
+    width: 100%;
+    height: 100%;
+    font-size: 12px;
+    background-color: variables.$bg-primary-color;
+    color: #FFF;
+    @include mixins.d-column;
+}
+
+button, input, select {
+    border: 0
+}
+
+button, select {
+    cursor: pointer;
+}
+
+.container {
+    @include mixins.container;
+    @include mixins.d-column;
+    position: relative;
+}
+
+.column {
+    @include mixins.d-column;
+}
+
+.row {
+    @include mixins.d-row;
+}
+
+.p {
+    padding: 1rem;
+}
+
+.pt {
+    padding-top: 1rem;
+}
+
+.pr {
+    padding-right: 1rem;
+}
+
+.pb {
+    padding-bottom: 1rem;
+}
+
+.pl {
+    padding-left: 1rem;
+}
+
+.m {
+    margin: 1rem;
+}
+
+.mt {
+    margin-top: 1rem;
+}
+
+.mr {
+    margin-right: 1rem;
+}
+
+.mb {
+    margin-bottom: 1rem;
+}
+
+.ml {
+    margin-left: 1rem;
+}
+
+.font-normal {
+    font-weight: 100;
+}
+
+.font-regular {
+    font-weight: 400;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-center {
+    text-align: center;
+}

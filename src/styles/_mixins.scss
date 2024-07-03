@@ -1,0 +1,17 @@
+@mixin d-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin d-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin container {
+    width: 100%;
+    max-width: 768px;
+}
