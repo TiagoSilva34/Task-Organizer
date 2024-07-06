@@ -1,0 +1,159 @@
+@use "../../../styles/variables";
+@use "../../../styles/mixins";
+
+
+.modal-overlay {
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  @include mixins.d-row;
+  overflow: hidden;
+  padding: 0 1rem;
+}
+
+.modal-box {
+  @include mixins.d-column;
+  background-color: variables.$bg-white;
+  width: 100%;
+  max-width: 400px;
+  height: 30%;
+  min-height: 200px;
+  padding: 1rem;
+  border-radius: 1rem;
+  position: relative;
+  text-align: center;
+}
+
+.modal-box h1 {
+  color: variables.$text-primary-color;
+  font-size: 1.8rem;
+}
+
+.close {
+    color: variables.$bg-primary-color;
+    font-size: 2rem;
+    background-color: #cecece;
+    width: 30px;
+    height: 30px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    cursor: pointer;
+}
+
+.modal-actions {
+  margin-top: 1.8rem;
+}
+
+.modal-actions-date {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-actions-edit {
+  margin-top: 1.8rem;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.btn-modal-no {
+    background-color: variables.$bg-primary-color;
+    color: variables.$text-white;
+    width: 70px;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+}
+
+.btn-modal-yes {
+    background-color: #FF0000;
+    width: 70px;
+    padding: 1rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    color: variables.$text-white;
+}
+
+.close span {
+   position: relative;
+   top: -2px;
+}
+
+/* Editar task */
+.form-edit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+} 
+
+.form-edit .new-title-field,
+.form-edit .new-priority-list {
+  width: 100%;
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid variables.$bg-primary-color;
+  padding: 1.2rem 1rem;
+
+}
+
+.form-edit div .btn-modal-add,
+.form-edit div .btn-modal-cancel {
+  border-radius: 5px;
+}
+
+.form-edit div .btn-modal-add {
+  width: 90px;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  background-color: green;
+  color: variables.$text-white;
+  margin-left: 1rem;
+}
+
+.form-edit div .btn-modal-cancel {
+  width: 90px;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+}
+
+/* Set date */
+.form-set-date {
+  width: 100%;
+}
+
+.form-set-date .date {
+  width: 100%;
+  padding: 1.2rem;
+  border-bottom: 1px solid variables.$bg-primary-color;
+}
+
+.form-set-date div.modal-actions-date {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.form-set-date div .btn-modal-date {
+  width: 90px;
+  padding: 1rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  background-color: green;
+  color: variables.$text-white;
+  margin-left: 1rem;
+  
+}
