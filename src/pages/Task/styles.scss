@@ -1,7 +1,6 @@
 @use '../../styles/mixins';
 @use '../../styles/_variables.sass';
 
-
 .container-title {
     width: 100%;
     height: 100px;
@@ -80,13 +79,24 @@
 }
 
 .form-container .btn-add {
-    background-color: green;
     font-size: 1.2rem;
     border-radius: 30px;
     width: 100px;
     padding: 1rem 0;
     color: #FFF;
 }
+
+.form-container .btn-add.enabled,
+.form-edit .btn-modal-add.enable {
+    background-color: green;
+}
+
+.form-container .btn-add.disabled,
+.form-edit .btn-modal-add.disabled {
+    background-color: #cecece;
+    color: #838080;
+}
+
 
 .form-container .btn-add:hover {
     background-color: transparent;
@@ -115,7 +125,7 @@
     width: 100%;
 }
 
-.task-list-container ul li p {
+.task-list-container ul li p span {
     font-size: 1.5rem;
     color: orange;
 }
@@ -141,6 +151,33 @@
 
 .task-list-container ul li .task-item-actions .btn-delele {
     color: #FF0000;
+}
+
+/* Editar task */
+.form-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+} 
+
+.form-edit .new-title-field,
+.form-edit .new-priority-list {
+    width: 100%;
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid variables.$bg-primary-color;
+}
+
+.form-edit .new-title-field,
+.form-edit .new-priority-list {
+    width: 100%;
+    padding: 1.2rem 1rem;
+}
+
+.form-edit .btn-modal-add,
+.form-edit .btn-modal-cancel {
+    font-size: 2rem;
 }
 
 @media (min-width: 800px) {
@@ -210,4 +247,10 @@
     .task-list-container ul li:nth-child(1) { 
         opacity: .3;
     }
+
+    .task-list-container ul li .createAt {
+        font-size: 1.2rem;
+        margin: 1rem 0;
+    }    
 }
+
