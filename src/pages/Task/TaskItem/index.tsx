@@ -4,9 +4,9 @@ import { useModel } from "../../../shared/hooks/useModal";
 import { Modal } from "../../../shared/components/modal";
 import { Button } from "../../../shared/components/Button";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { getDiffDaysBetweenDates } from "../../../shared/utils/diffDays";
 import { Form } from "../../../shared/components/Form";
 import { Select } from "../../../shared/components/Select";
+import { countdownDate } from "../../../shared/utils/countdownDate";
 
 export const TaskItem: React.FC = () => {
   const { toggle, isOpen } = useModel();
@@ -15,9 +15,7 @@ export const TaskItem: React.FC = () => {
   const [priority, setPriority] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false)
 
-  const [counter, setCounter] = useState<number>(
-    getDiffDaysBetweenDates("7/02/2024", "07/07/2024")
-  );
+  const [counter, setCounter] = useState<any>("");
 
   const enableBtnAdd = useMemo(() => {
     if (title.length > 3 && priority.length && priority !== "default-value")
@@ -47,18 +45,13 @@ export const TaskItem: React.FC = () => {
   const handleCheck = () => {
     setChecked(!checked)
   }
-
+  
   useEffect(() => {
-    let days = counter;
-
     setInterval(() => {
-      if (days > 0) {
-        --days;
-
-        setCounter(days);
-      }
-    }, 2000);
-  }, []);
+      if (!checked)
+      setCounter(countdownDate())
+    }, 1000)
+  }, [])
 
   return (
     <>
@@ -145,9 +138,12 @@ export const TaskItem: React.FC = () => {
             <small className="font-normal text-center mb mt createAt">
               Create at: 02/07/024
             </small>
+            <small className="font-normal text-center mb mt createAt">
+              Priority: high
+            </small>
             <p className="font-normal text-center">
               Time to complete the task until 06/07/2024:{" "}
-              <span>counter days {`${counter} days`}</span>
+              <span>counter days {`${counter}`}</span>
             </p>
           </div>
           <div className="task-item-actions mt">
@@ -178,9 +174,12 @@ export const TaskItem: React.FC = () => {
             <small className="font-normal text-center mb mt createAt">
               Create at: 02/07/024
             </small>
+            <small className="font-normal text-center mb mt createAt">
+              Priority: medium
+            </small>
             <p className="font-normal text-center">
               Time to complete the task until 06/07/2024:{" "}
-              <span>counter days {`${counter} days`}</span>
+              <span>counter days {`${counter}`}</span>
             </p>
           </div>
           <div className="task-item-actions mt">
