@@ -40,7 +40,6 @@ export const Task = () => {
   } 
 
   const setEndDate = () => {
-    console.log('Hello')
     toggle()
   }
 
