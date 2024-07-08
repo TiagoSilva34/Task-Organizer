@@ -7,8 +7,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Form } from "../../../shared/components/Form";
 import { Select } from "../../../shared/components/Select";
 import { countdownDate } from "../../../shared/utils/countdownDate";
+import { ITodoItem } from "./inteeface";
 
-export const TaskItem: React.FC = () => {
+export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
   const { toggle, isOpen } = useModel();
   const [modalName, setModalName] = useState<string>("");
   const [title, setTitle] = useState<string>("");
@@ -130,52 +131,16 @@ export const TaskItem: React.FC = () => {
         <li>
           <div className="task-item-info">
             <h1 className="font-regular text-center">
-              Task 01{" "}
-              <small className="situation-status font-normal">
-                <i>completed</i>
-              </small>
-            </h1>
-            <small className="font-normal text-center mb mt createAt">
-              Create at: 02/07/024
-            </small>
-            <small className="font-normal text-center mb mt createAt">
-              Priority: high
-            </small>
-            <p className="font-normal text-center">
-              Time to complete the task until 06/07/2024:{" "}
-              <span>counter days {`${counter}`}</span>
-            </p>
-          </div>
-          <div className="task-item-actions mt">
-            <Input
-              className="check-complete"
-              type="checkbox"
-              onChange={() => setChecked(!checked)}
-              disabled={checked}              
-            />
-            <MdEdit
-              className="btn-edit ml mr"
-              onClick={() => handleOpenModal("edit-modal")}
-            />
-            <MdDelete
-              className="btn-delele"
-              onClick={() => handleOpenModal("delete-modal")}
-            />
-          </div>
-        </li>
-        <li>
-          <div className="task-item-info">
-            <h1 className="font-regular text-center">
-              Task 02{" "}
+              {todo.task}{" "}
               <span className="situation-status font-normal">
-                not completed
+                {todo.isCompleted}
               </span>
             </h1>
             <small className="font-normal text-center mb mt createAt">
               Create at: 02/07/024
             </small>
             <small className="font-normal text-center mb mt createAt">
-              Priority: medium
+              Priority: {todo.priority}
             </small>
             <p className="font-normal text-center">
               Time to complete the task until 06/07/2024:{" "}
@@ -187,8 +152,8 @@ export const TaskItem: React.FC = () => {
               className="check-complete"
               type="checkbox"
               onChange={() => handleCheck()}
-              value={checked}
-              checked={checked}  
+              value={todo.isCompleted}
+              checked={todo.isCompleted}  
             />
             <MdEdit
               className="btn-edit ml mr"
