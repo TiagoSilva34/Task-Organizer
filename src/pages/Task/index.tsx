@@ -9,16 +9,17 @@ import { Modal } from "../../shared/components/modal";
 import { useModel } from "../../shared/hooks/useModal";
 import { createTodoFn, getAllTodosFn } from "../../shared/services/todoApi.service";
 import { ITODO } from "../../shared/models/ITodo";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 export const Task = () => {
   const [title, setTitle] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
   const [modalName, setMadalName] = useState<string>("")
   const { toggle, isOpen } = useModel();
-  const queryClient = useQueryClient();
 
-  const todos = useQuery({ queryKey: ['todos'], queryFn: getAllTodosFn })
+  const queryClient = new QueryClient()
+
+  const response = useQuery({ queryKey: ['todos'], queryFn: getAllTodosFn })
 
   const mutation = useMutation({
     mutationFn: (newTodo: ITODO) => createTodoFn(newTodo),
@@ -50,9 +51,7 @@ export const Task = () => {
   } 
 
   const setEndDate = () => {
-    debugger
     toggle()
-
     mutation.mutate({
       id: 2,
       task: title,
@@ -60,12 +59,8 @@ export const Task = () => {
       createAt: "07/07/2024",
       isCompleted: false
     })
-
+    window.location.reload()
   }
-
-  useEffect(() => {
-    console.log(todos)
-  }, [])
 
   return (
     <div className="container p">
@@ -76,7 +71,7 @@ export const Task = () => {
           <Input type="date" value="" onChange={() => {}} className="date" />
           <div className="modal-actions-date">
             <Button
-              type="button"
+              type="submit"
               onClick={() => setEndDate()}
               className="btn-modal-date font-regular"
               disabled={false}
@@ -122,9 +117,12 @@ export const Task = () => {
           </Button>
         </Form>
       </div>
-
       <div className="task-list-container">
-        <TaskItem />
+        <ul>
+          {response.data?.map((todo: ITODO) => (
+              <TaskItem key={todo.id} todo={todo} />
+          ))}
+        </ul>
       </div>
     </div>
   );
