@@ -7,12 +7,22 @@ import { TaskItem } from "./TaskItem";
 import "./styles.scss";
 import { Modal } from "../../shared/components/modal";
 import { useModel } from "../../shared/hooks/useModal";
+import { createTodoFn, getAllTodosFn } from "../../shared/services/todoApi.service";
+import { ITODO } from "../../shared/models/ITodo";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const Task = () => {
   const [title, setTitle] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
   const [modalName, setMadalName] = useState<string>("")
   const { toggle, isOpen } = useModel();
+  const queryClient = useQueryClient();
+
+  const todos = useQuery({ queryKey: ['todos'], queryFn: getAllTodosFn })
+
+  const mutation = useMutation({
+    mutationFn: (newTodo: ITODO) => createTodoFn(newTodo),
+  })
 
   const enableBtnAdd = useMemo(() => {
     if (title.length > 3 && priority.length && priority !== "default-value")
@@ -40,8 +50,22 @@ export const Task = () => {
   } 
 
   const setEndDate = () => {
+    debugger
     toggle()
+
+    mutation.mutate({
+      id: 2,
+      task: title,
+      priority: priority,
+      createAt: "07/07/2024",
+      isCompleted: false
+    })
+
   }
+
+  useEffect(() => {
+    console.log(todos)
+  }, [])
 
   return (
     <div className="container p">
