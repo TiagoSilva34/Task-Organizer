@@ -1,28 +1,36 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Button } from "../../shared/components/Button";
 import { Form } from "../../shared/components/Form";
 import { Input } from "../../shared/components/Input";
 import { Select } from "../../shared/components/Select";
 import { TaskItem } from "./TaskItem";
-import "./styles.scss";
 import { Modal } from "../../shared/components/modal";
 import { useModel } from "../../shared/hooks/useModal";
-import { createTodoFn, getAllTodosFn } from "../../shared/services/todoApi.service";
+import { createTodoFn, getAllTodosFn, removeTodoFn, updateTodoFn } from "../../shared/services/todoApi.service";
 import { ITODO } from "../../shared/models/ITodo";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import moment from 'moment'
+import "./styles.scss";
 
 export const Task = () => {
   const [title, setTitle] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
   const [modalName, setMadalName] = useState<string>("")
+  const [endDate, setEndDate] = useState<string>("")
   const { toggle, isOpen } = useModel();
-
-  const queryClient = new QueryClient()
 
   const response = useQuery({ queryKey: ['todos'], queryFn: getAllTodosFn })
 
   const mutation = useMutation({
     mutationFn: (newTodo: ITODO) => createTodoFn(newTodo),
+  })
+
+  const deleteTodo = useMutation({
+    mutationFn: (id: string) => removeTodoFn(id)
+  })
+
+  const updateTodo = useMutation({
+    mutationFn: (todo: ITODO) => updateTodoFn(todo.id, todo)
   })
 
   const enableBtnAdd = useMemo(() => {
@@ -50,16 +58,25 @@ export const Task = () => {
     toggle()
   } 
 
-  const setEndDate = () => {
+  const handleEndDate = () => {
     toggle()
     mutation.mutate({
-      id: 2,
+      id: '1',
       task: title,
       priority: priority,
-      createAt: "07/07/2024",
-      isCompleted: false
+      createAt: moment(new Date).format("DD/MM/YYYY"),
+      isCompleted: false,
+      endDate: endDate.length ? moment(endDate).format("DD/MM/YYYY") : ""
     })
     window.location.reload()
+  }
+
+  const onClickRemoveTodo = (id: string) => {
+    deleteTodo.mutate(id)
+  }
+
+  const onClickUpdateTodo = (todo: any) => {
+    updateTodo.mutate(todo)
   }
 
   return (
@@ -68,11 +85,11 @@ export const Task = () => {
         <Modal isOpen={isOpen} toggle={toggle}>
         <h1>Do you want to set a date to complete the task?</h1>
         <Form onSubmit={() => {}} className="form-set-date">
-          <Input type="date" value="" onChange={() => {}} className="date" />
+          <Input type="date" value={endDate} onChange={event => setEndDate(event.target.value)} className="date" />
           <div className="modal-actions-date">
             <Button
               type="submit"
-              onClick={() => setEndDate()}
+              onClick={() => handleEndDate()}
               className="btn-modal-date font-regular"
               disabled={false}
             >
@@ -120,7 +137,7 @@ export const Task = () => {
       <div className="task-list-container">
         <ul>
           {response.data?.map((todo: ITODO) => (
-              <TaskItem key={todo.id} todo={todo} />
+              <TaskItem key={todo.id} todo={todo} onClickRemoveTodo={onClickRemoveTodo} onClickUpdateTodo={onClickUpdateTodo} />
           ))}
         </ul>
       </div>
