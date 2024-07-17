@@ -7,16 +7,19 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Form } from "../../../shared/components/Form";
 import { Select } from "../../../shared/components/Select";
 import { countdownDate } from "../../../shared/utils/countdownDate";
-import { ITodoItem } from "./inteeface";
+import { ITodoItem } from "./interface";
+import { ITODO } from "../../../shared/models/ITodo";
+import moment from "moment";
 
-export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
+export const TaskItem: React.FC<ITodoItem> = ({ todo, onClickRemoveTodo, onClickUpdateTodo }) => {
   const { toggle, isOpen } = useModel();
   const [modalName, setModalName] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [priority, setPriority] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false)
-
   const [counter, setCounter] = useState<any>("");
+  const [taskID, setTaskID] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("")
 
   const enableBtnAdd = useMemo(() => {
     if (title.length > 3 && priority.length && priority !== "default-value")
@@ -35,24 +38,45 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
     (value: string) => {
       setPriority(value);
     },
-    [title]
+    [priority]
   );
 
-  const handleOpenModal = (name: string) => {
+  const handleOpenModal = (todo: ITODO, name: string) => {
     setModalName(name);
+    setTaskID(todo.id)
     toggle();
   };
 
   const handleCheck = () => {
     setChecked(!checked)
   }
+
+  const deleteTodo = () => {
+    onClickRemoveTodo(taskID)
+    toggle();
+    window.location.reload()
+  }
+
+  const updateTodo = () => {
+    onClickUpdateTodo({
+      id: taskID,
+      task: title,
+      priority: priority,
+      createAt: moment(new Date).format("DD/MM/YYYY"),
+      endDate: endDate.length ? moment(endDate).format("DD/MM/YYYY") : ""
+    })
+    toggle();
+
+    window.location.reload()
+  }
   
   useEffect(() => {
-    setInterval(() => {
-      if (!checked)
-      setCounter(countdownDate())
-    }, 1000)
-  }, [])
+    if (todo.endDate && !todo.isCompleted) {
+      setInterval(() => {
+        setCounter(countdownDate(todo.endDate))
+      }, 1000)
+    }
+  }, [todo.isCompleted, todo.endDate])
 
   return (
     <>
@@ -70,8 +94,8 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
               No
             </Button>
             <Button
-              type="button"
-              onClick={() => {}}
+              type="submit"
+              onClick={() => deleteTodo()}
               className="btn-modal-yes font-regular"
               disabled={false}
             >
@@ -101,10 +125,11 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
               <option value="medium">medium</option>
               <option value="high">high</option>
             </Select>
+            <Input type="date" value={endDate} onChange={event => setEndDate(event.target.value)} className="date" />
             <div className="modal-actions-edit">
               <Button
                 type="button"
-                onClick={() => {}}
+                onClick={() => toggle()}
                 className="btn-modal-cancel font-regular"
                 disabled={false}
               >
@@ -112,7 +137,7 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
               </Button>
               <Button
                 type="button"
-                onClick={() => toggle()}
+                onClick={() => updateTodo()}
                 className={
                   enableBtnAdd
                     ? "disabled btn-modal-add font-regular mr"
@@ -137,15 +162,17 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
               </span>
             </h1>
             <small className="font-normal text-center mb mt createAt">
-              Create at: 02/07/024
+              Create at: {todo.createAt}
             </small>
             <small className="font-normal text-center mb mt createAt">
               Priority: {todo.priority}
             </small>
-            <p className="font-normal text-center">
-              Time to complete the task until 06/07/2024:{" "}
-              <span>counter days {`${counter}`}</span>
-            </p>
+            {!todo.isCompleted && todo.endDate && (
+                <p className="font-normal text-center">
+                  Time to complete the task until {todo.endDate}:{" "}
+                  <span>counter hours {`${counter}`}</span>
+                </p>
+            )}
           </div>
           <div className="task-item-actions mt">
             <Input
@@ -157,11 +184,11 @@ export const TaskItem: React.FC<ITodoItem> = ({ todo }) => {
             />
             <MdEdit
               className="btn-edit ml mr"
-              onClick={() => handleOpenModal("edit-modal")}
+              onClick={() => handleOpenModal(todo, "edit-modal")}
             />
             <MdDelete
               className="btn-delele"
-              onClick={() => handleOpenModal("delete-modal")}
+              onClick={() => handleOpenModal(todo, "delete-modal")}
             />
           </div>
         </li>
