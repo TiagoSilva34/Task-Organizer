@@ -6,7 +6,19 @@ export const getAllTodosFn = async () => {
     return response.data
 }
 
-export const createTodoFn = async (data: ITODO): Promise<any> => {
+export const createTodoFn = async (data: ITODO) => {
     const response = await API().post<ITODO>('/todos', data);
     return response.data;
 };
+
+
+export const removeTodoFn = async (id: string) => {
+    const response = await API().delete(`/todos/${id}`);
+    return response.data;
+};
+
+export const updateTodoFn = async (id: string, todo: ITODO) => {
+    const response = await API().put(`/todos/${id}`, todo);
+    return response.data;
+};
+
