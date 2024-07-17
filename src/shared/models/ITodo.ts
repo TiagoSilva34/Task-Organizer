@@ -1,7 +1,8 @@
 export interface ITODO {
-    id: number | string 
+    id: string | number
     task: string 
     priority: string
-    createAt: string 
+    createAt: any 
     isCompleted: boolean
+    endDate: string
 }
