@@ -1,32 +1,11 @@
 {
   "todos": [
     {
-      "id": 2,
-      "task": "Task 01",
-      "priority": "low",
-      "createAt": "07/07/2024",
-      "isCompleted": false
-    },
-    {
-      "id": 2,
+      "id": "1",
       "task": "Task 02",
       "priority": "medium",
-      "createAt": "07/07/2024",
-      "isCompleted": false
-    },
-    {
-      "id": 2,
-      "task": "Task 03",
-      "priority": "high",
-      "createAt": "07/07/2024",
-      "isCompleted": false
-    },
-    {
-      "id": 2,
-      "task": "Task 04 ",
-      "priority": "medium",
-      "createAt": "07/07/2024",
-      "isCompleted": false
+      "createAt": "16/07/2024",
+      "endDate": "18/07/2024"
     }
   ]
 }
