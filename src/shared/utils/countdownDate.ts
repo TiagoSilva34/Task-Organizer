@@ -1,26 +1,10 @@
 
 // Update the count down every 1 second
-export const countdownDate = function (endDate: any) {  
-  // // Get today's date and time
-  // var now = new Date().getTime();
-
+export const countdownDate = function (endDate: any) { 
   let day = endDate.slice(0, 2)
   let month = endDate.slice(3, 5)
   let year = endDate.slice(6, 10)
   const formattedate = new Date(`${month}/${day}/${year}`).getTime()
-
-  // // Find the distance between now and the count down date
-  // var distance = formattedate - now;
-
-  // // Time calculations for days, hours, minutes and seconds
-  // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60));
-  // var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  // var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // // Output the result in an element with id="demo"
-  // let counter = hours + "h : " + minutes + "m : " + seconds + "s"; 
-
-  // return counter
 
   const firstDate: Date = new Date();
  
@@ -48,8 +32,8 @@ const remSeconds = totalSeconds % 60;
 // Getting the number of minutes left in one hour
 const remMinutes = Number(totalMinutes) % 60;
  
- let teste = `${totalHours}:${remMinutes}:${remSeconds}`;
+ let counter = `${totalHours}hrs : ${remMinutes}m : ${remSeconds}s`;
 
- return teste
+ return counter
 
 };
