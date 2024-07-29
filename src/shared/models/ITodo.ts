@@ -1,5 +1,5 @@
 export interface ITODO {
-    id: string | number
+    id: string
     task: string 
     priority: string
     createAt: any 
