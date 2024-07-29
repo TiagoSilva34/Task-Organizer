@@ -1,9 +1,9 @@
-import { Task } from "./pages/Task"
+import { AppRoutes }  from "./routes"
 
 function App() {
   return (
     <>
-      <Task />
+      <AppRoutes  />
     </>
   )
 }
