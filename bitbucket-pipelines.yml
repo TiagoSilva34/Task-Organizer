@@ -1,0 +1,29 @@
+image:
+  name: node:20
+
+definitions: 
+  steps: 
+    - step: &install
+        name: "Install Dependencies"
+        caches:
+          - node
+        script:
+          - npm install
+
+    - step: &lint
+        name: "Lint"
+        script:
+          - npm install --save-dev lint
+
+    - step: &test
+        name: "Test"
+        script:
+          - npm install --save-dev jest
+
+
+pipelines: 
+  pull-requests:
+    '**':
+      - step: *install
+      - step: *lint
+      - step: *test

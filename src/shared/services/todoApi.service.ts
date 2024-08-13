@@ -7,42 +7,58 @@ export const loginFn = async (data: ITODO) => {
 }
 
 export const getAllTodosFn = async () => {
-    const cache = JSON.parse(localStorage.getItem('cache') as any)
-
-    if (cache) {
-        return cache
+    const chachedData = JSON.parse(localStorage.getItem('cachedData') as any)
+    const cacheTime = JSON.parse(localStorage.getItem('cacheTime') as any)
+    const currentTime = new Date().getTime()
+    const cacheDuration = 1000 * 50 * 5 // Cache de 5 minutos
+    
+    if (chachedData && cacheTime && currentTime - cacheTime < cacheDuration) {
+        return chachedData
     } else {
-        const response = await API().get<ITODO[]>('/todos')
-        let data = response.data 
-        addCache(data)
-        return response.data
+        try {
+            const response = await API().get<ITODO[]>('/tasks')
+            const data = response.data 
+
+            localStorage.setItem('todos', JSON.stringify(data));
+            localStorage.setItem('cacheTime', JSON.stringify(currentTime));
+
+            return data
+        } catch (error) {
+            console.error('Erro ao buscar dados da API:', error);
+            throw error;
+        }
     }
 }
 
 export const createTodoFn = async (data: ITODO) => {
-    const response = await API().post<ITODO>('/todos', data);
-    clearCache()
-    return response.data;
+    try {
+        await API().post<ITODO>('/tasks', data);
+        getAllTodosFn()  
+    } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        throw error;
+    }
 };
 
 export const removeTodoFn = async (id: string) => {
-    const response = await API().delete(`/todos/${id}`);
-    clearCache()
-    return response.data;
+    try {
+        await API().delete(`/tasks/${id}`);
+        getAllTodosFn()
+    } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        throw error;
+    }
 };
 
 export const updateTodoFn = async (id: string, todo: ITODO) => {
-    const response = await API().put(`/todos/${id}`, todo);
-    clearCache()
-    return response.data;
+    try {
+        await API().put(`/tasks/${id}`, todo);
+        getAllTodosFn()
+    } catch (error) {
+        console.error('Erro ao buscar dados da API:', error);
+        throw error;
+    }
 };
 
-const addCache = (data: any) => {
-    localStorage.setItem('cache', JSON.stringify(data))
-}
-
-const clearCache = () => {
-    localStorage.removeItem('cache')
-}
 
 

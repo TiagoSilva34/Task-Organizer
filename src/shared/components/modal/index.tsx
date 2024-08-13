@@ -7,7 +7,7 @@ export const Modal: React.FC<IModelProsp> = ({ children, isOpen, toggle }) => {
       {isOpen && (
         <div className="modal-overlay">
           <div className="modal-box">
-            <div className="close">
+            <div className="close" onClick={() => toggle()}>
               <span onClick={toggle}>x</span>
             </div>
             {children}

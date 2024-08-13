@@ -3,6 +3,6 @@ export interface ITODO {
     task: string 
     priority: string
     createAt: any 
-    isCompleted: boolean
-    endDate: string
+    isCompleted: number
+    endDate: any
 }
